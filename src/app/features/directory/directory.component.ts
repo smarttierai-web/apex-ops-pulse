@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { IconComponent } from '../../shared/components/icon.component';
 import { SupabaseService } from '../../core/services/supabase.service';
 import { EmployeeModalComponent } from '../modals/employee-modal.component';
@@ -9,7 +10,7 @@ import { UserProfile } from '../../core/models/workforce.model';
 @Component({
   selector: 'app-directory',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent, EmployeeModalComponent],
+  imports: [CommonModule, FormsModule, RouterModule, IconComponent, EmployeeModalComponent],
   template: `
     <div class="space-y-6">
       <!-- Header -->
@@ -21,11 +22,36 @@ import { UserProfile } from '../../core/models/workforce.model';
 
         <button
           (click)="showAddModal = true"
-          class="px-4 py-2 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-semibold rounded-xl shadow-sm transition-all flex items-center gap-1.5 self-start"
+          class="px-4 py-2 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-semibold rounded-xl shadow-sm transition-all flex items-center gap-1.5 self-start cursor-pointer"
         >
           <app-icon name="plus" [size]="14"></app-icon>
           <span>Onboard Employee</span>
         </button>
+      </div>
+
+      <!-- Individual Mode Banner -->
+      <div class="bg-gradient-to-r from-teal-50 to-slate-50 border border-teal-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-teal-800 text-white flex items-center justify-center shrink-0">
+            <app-icon name="user" [size]="18"></app-icon>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-900 flex items-center gap-2">
+              <span>Looking for an individual employee's detailed file?</span>
+              <span class="text-[10px] font-mono bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-semibold uppercase">Individual Dossier</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-0.5">
+              Personal, operational, and financial records are strictly given per individual with full Row Level Security.
+            </p>
+          </div>
+        </div>
+        <a
+          routerLink="/profile"
+          class="px-3.5 py-1.5 rounded-xl bg-teal-800 hover:bg-teal-900 text-white text-xs font-bold shrink-0 transition-all shadow-xs flex items-center gap-1.5"
+        >
+          <span>Open Individual Dossier</span>
+          <app-icon name="arrow-up-right" [size]="13"></app-icon>
+        </a>
       </div>
 
       <!-- Search & Filters -->
@@ -118,14 +144,24 @@ import { UserProfile } from '../../core/models/workforce.model';
             </div>
 
             <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
-              <span class="text-[11px] text-slate-400">PostgreSQL RLS Active</span>
-              <button
-                type="button"
-                (click)="selectedProfile = emp"
-                class="text-xs text-teal-800 font-semibold hover:text-teal-900"
-              >
-                View Full Details →
-              </button>
+              <span class="text-[11px] text-slate-400">PostgreSQL RLS</span>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  (click)="selectedProfile = emp"
+                  class="text-xs text-slate-600 hover:text-slate-900 font-medium cursor-pointer"
+                >
+                  Preview
+                </button>
+                <span class="text-slate-200">•</span>
+                <a
+                  [routerLink]="['/profile']"
+                  [queryParams]="{ id: emp.id }"
+                  class="text-xs text-teal-800 font-bold hover:text-teal-900 flex items-center gap-1"
+                >
+                  <span>Individual Details →</span>
+                </a>
+              </div>
             </div>
           </div>
         }
@@ -229,11 +265,21 @@ import { UserProfile } from '../../core/models/workforce.model';
                 </div>
               </div>
 
-              <div class="flex justify-end pt-2 border-t">
+              <div class="flex items-center justify-between pt-2 border-t">
+                <a
+                  [routerLink]="['/profile']"
+                  [queryParams]="{ id: selectedProfile.id }"
+                  (click)="selectedProfile = null"
+                  class="text-xs font-bold text-teal-800 hover:underline flex items-center gap-1.5"
+                >
+                  <app-icon name="user" [size]="14"></app-icon>
+                  <span>Open Dedicated Individual File →</span>
+                </a>
+
                 <button
                   type="button"
                   (click)="selectedProfile = null"
-                  class="px-5 py-2 bg-[#0A7380] hover:bg-[#085a64] text-white rounded-xl text-xs font-semibold shadow-sm transition-all"
+                  class="px-5 py-2 bg-[#0A7380] hover:bg-[#085a64] text-white rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer"
                 >
                   Close Record
                 </button>

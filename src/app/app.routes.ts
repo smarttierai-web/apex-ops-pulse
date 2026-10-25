@@ -17,6 +17,16 @@ export const routes: Routes = [
     title: 'Workforce Directory | Apex OpsPulse'
   },
   {
+    path: 'profile',
+    loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent),
+    title: 'Individual Employee Details | Apex OpsPulse'
+  },
+  {
+    path: 'employee-details',
+    redirectTo: 'profile',
+    pathMatch: 'full'
+  },
+  {
     path: 'attendance',
     loadComponent: () => import('./features/attendance/attendance.component').then(m => m.AttendanceComponent),
     title: 'Daily Attendance | Apex OpsPulse'

@@ -559,6 +559,25 @@ export class SupabaseService {
   }
 
   /**
+   * Update individual employee contact details (phone, address, emergency contact)
+   */
+  async updateEmployeeContactInfo(userId: string, data: { phone?: string; address?: string; emergency_contact?: string }) {
+    this.workforce.update(list => list.map(emp => emp.id === userId ? { ...emp, ...data } : emp));
+    if (this.currentUser()?.id === userId) {
+      this.currentUser.update(curr => curr ? { ...curr, ...data } : null);
+    }
+    this.toast.success('Contact Details Saved', 'Individual employee profile updated successfully.');
+
+    if (this.isLiveConnected() && this.supabaseClient) {
+      try {
+        await this.supabaseClient.from('profiles').update(data).eq('id', userId);
+      } catch (err: any) {
+        console.error('Supabase contact update error:', err);
+      }
+    }
+  }
+
+  /**
    * Sets up Supabase Realtime Postgres Changes Subscription
    */
   private subscribeToLiveRealtime() {

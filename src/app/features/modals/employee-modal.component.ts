@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { IconComponent } from '../../shared/components/icon.component';
 import { SupabaseService } from '../../core/services/supabase.service';
@@ -22,7 +23,7 @@ function bankAccountValidator(control: AbstractControl) {
 @Component({
   selector: 'app-employee-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, IconComponent],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden flex flex-col max-h-[92vh]">
@@ -453,24 +454,35 @@ function bankAccountValidator(control: AbstractControl) {
             </div>
 
             <!-- Modal Footer Actions -->
-            <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+            <div class="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
               <button
                 type="button"
                 (click)="onboardAnother()"
-                class="px-4 py-2 text-xs font-semibold text-teal-800 hover:bg-teal-50 rounded-xl transition-colors flex items-center gap-1.5"
+                class="px-4 py-2 text-xs font-semibold text-teal-800 hover:bg-teal-50 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <app-icon name="plus" [size]="14"></app-icon>
                 <span>Onboard Another Employee</span>
               </button>
 
-              <button
-                type="button"
-                (click)="handleClose()"
-                class="px-6 py-2.5 text-xs font-bold text-white bg-[#0A7380] hover:bg-[#085a64] rounded-xl transition-all shadow-sm flex items-center gap-2"
-              >
-                <app-icon name="check" [size]="15"></app-icon>
-                <span>Done & View Directory</span>
-              </button>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  (click)="viewIndividualDossier()"
+                  class="px-4 py-2 text-xs font-bold text-teal-900 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer"
+                >
+                  <app-icon name="user" [size]="14"></app-icon>
+                  <span>Open Individual Dossier</span>
+                </button>
+
+                <button
+                  type="button"
+                  (click)="handleClose()"
+                  class="px-5 py-2.5 text-xs font-bold text-white bg-[#0A7380] hover:bg-[#085a64] rounded-xl transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                >
+                  <app-icon name="check" [size]="15"></app-icon>
+                  <span>Done</span>
+                </button>
+              </div>
             </div>
 
           </div>
@@ -486,6 +498,7 @@ export class EmployeeModalComponent {
 
   private fb = inject(FormBuilder);
   private supabaseService = inject(SupabaseService);
+  private router = inject(Router);
 
   viewMode: 'form' | 'details' = 'form';
   activeTab: 'personal' | 'shift' | 'bank' = 'personal';
@@ -579,6 +592,14 @@ export class EmployeeModalComponent {
     this.createdEmployee = null;
     this.activeTab = 'personal';
     this.viewMode = 'form';
+  }
+
+  viewIndividualDossier() {
+    if (this.createdEmployee) {
+      const empId = this.createdEmployee.id;
+      this.close.emit();
+      this.router.navigate(['/profile'], { queryParams: { id: empId } });
+    }
   }
 
   handleClose() {

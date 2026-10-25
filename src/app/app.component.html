@@ -56,6 +56,17 @@
           <span>Dashboard</span>
         </a>
 
+        <!-- 1.5 Individual Employee Details -->
+        <a
+          routerLink="/profile"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="user" [size]="18" customClass="text-teal-300 group-hover:text-white"></app-icon>
+          <span>Employee Details</span>
+        </a>
+
         <!-- 2. Employee Directory -->
         <a
           routerLink="/directory"
@@ -277,6 +288,15 @@
                 </div>
 
                 <div class="py-1 text-xs">
+                  <a
+                    routerLink="/profile"
+                    (click)="showUserMenu.set(false)"
+                    class="flex items-center gap-2 px-4 py-2 text-slate-800 hover:bg-slate-50 hover:text-teal-800 font-semibold"
+                  >
+                    <app-icon name="user" [size]="14" customClass="text-teal-700"></app-icon>
+                    <span>My Individual Record</span>
+                  </a>
+
                   <a
                     routerLink="/settings"
                     (click)="showUserMenu.set(false)"
