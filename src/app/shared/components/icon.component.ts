@@ -175,6 +175,33 @@ import { CommonModule } from '@angular/common';
         <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/>
       </g>
 
+      <!-- Fingerprint / Biometric Sensor -->
+      <g *ngSwitchCase="'fingerprint'">
+        <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 3"/>
+        <path d="M14 13.12c0 2.38 0 6.38-1 8.88"/>
+        <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/>
+        <path d="M2 12a10 10 0 0 1 18-6"/>
+        <path d="M2 16h.01"/>
+        <path d="M21.8 16c.2-2 .131-5.354 0-6"/>
+        <path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/>
+        <path d="M8.65 22c.21-.66.45-1.32.57-2"/>
+        <path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>
+      </g>
+
+      <!-- Camera / Facial Recognition AI -->
+      <g *ngSwitchCase="'camera'">
+        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+        <circle cx="12" cy="13" r="3"/>
+      </g>
+
+      <!-- Scan Reticle -->
+      <g *ngSwitchCase="'scan'">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+      </g>
+
       <!-- Default circle -->
       <circle *ngSwitchDefault cx="12" cy="12" r="9"/>
     </svg>

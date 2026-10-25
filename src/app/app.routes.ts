@@ -22,6 +22,11 @@ export const routes: Routes = [
     title: 'Daily Attendance | Apex OpsPulse'
   },
   {
+    path: 'biometric',
+    loadComponent: () => import('./features/biometric/biometric-terminal.component').then(m => m.BiometricTerminalComponent),
+    title: 'Biometric Gate Terminal | Apex OpsPulse'
+  },
+  {
     path: 'leaves',
     loadComponent: () => import('./features/leaves/leaves.component').then(m => m.LeavesComponent),
     title: 'Leave Approvals | Apex OpsPulse'

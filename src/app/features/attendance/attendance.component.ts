@@ -1,5 +1,6 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IconComponent } from '../../shared/components/icon.component';
 import { SupabaseService } from '../../core/services/supabase.service';
@@ -8,7 +9,7 @@ import { AttendanceOverrideModalComponent } from '../modals/attendance-override-
 @Component({
   selector: 'app-attendance',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent, AttendanceOverrideModalComponent],
+  imports: [CommonModule, RouterModule, FormsModule, IconComponent, AttendanceOverrideModalComponent],
   template: `
     <div class="space-y-6">
       <!-- Header -->
@@ -18,13 +19,23 @@ import { AttendanceOverrideModalComponent } from '../modals/attendance-override-
           <p class="text-xs text-slate-500 mt-0.5">Biometric, RFID gate telemetry and supervisor override audit logs</p>
         </div>
 
-        <button
-          (click)="showPunchModal = true"
-          class="px-4 py-2 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-semibold rounded-xl shadow-sm transition-all flex items-center gap-1.5 self-start"
-        >
-          <app-icon name="radio" [size]="14"></app-icon>
-          <span>Record Punch / Override</span>
-        </button>
+        <div class="flex items-center gap-2 self-start">
+          <a
+            routerLink="/biometric"
+            class="px-4 py-2 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-semibold rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+          >
+            <app-icon name="fingerprint" [size]="14"></app-icon>
+            <span>Biometric Gate Terminal</span>
+          </a>
+
+          <button
+            (click)="showPunchModal = true"
+            class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5"
+          >
+            <app-icon name="radio" [size]="14"></app-icon>
+            <span>Manual Override</span>
+          </button>
+        </div>
       </div>
 
       <!-- Quick Metrics Bar -->

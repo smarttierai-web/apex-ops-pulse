@@ -107,6 +107,20 @@
           <span>Daily Activity</span>
         </a>
 
+        <!-- Biometric Gate Terminal -->
+        <a
+          routerLink="/biometric"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <div class="flex items-center gap-3">
+            <app-icon name="fingerprint" [size]="18" customClass="text-teal-300 group-hover:text-white"></app-icon>
+            <span>Biometric Terminal</span>
+          </div>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 live-beacon"></span>
+        </a>
+
         <!-- 6. Performance & Reviews -->
         <a
           routerLink="/performance"
@@ -203,6 +217,17 @@
               class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0A7380] focus:bg-white transition-all"
             />
           </div>
+
+          <!-- Biometric Quick Punch Button -->
+          <button
+            type="button"
+            (click)="showBiometricModal.set(true)"
+            class="hidden md:flex items-center gap-2 px-3.5 py-1.5 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-bold rounded-xl shadow-xs transition-all cursor-pointer"
+            title="Biometric Fingerprint Check In / Check Out"
+          >
+            <app-icon name="fingerprint" [size]="16"></app-icon>
+            <span>Biometric Punch</span>
+          </button>
 
           <!-- Notification Bell with Red Badge -->
           <div class="relative">
@@ -317,6 +342,11 @@
   <!-- Global Settings Modal -->
   @if (showSettingsModal()) {
     <app-settings-modal (close)="showSettingsModal.set(false)"></app-settings-modal>
+  }
+
+  <!-- Global Biometric Scanner Modal -->
+  @if (showBiometricModal()) {
+    <app-biometric-modal (close)="showBiometricModal.set(false)"></app-biometric-modal>
   }
 
 </div>

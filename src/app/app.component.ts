@@ -5,6 +5,7 @@ import { IconComponent } from './shared/components/icon.component';
 import { ToastContainerComponent } from './shared/components/toast-container.component';
 import { SupabaseService } from './core/services/supabase.service';
 import { SettingsModalComponent } from './features/modals/settings-modal.component';
+import { BiometricModalComponent } from './features/modals/biometric-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { SettingsModalComponent } from './features/modals/settings-modal.compone
     RouterModule,
     IconComponent,
     ToastContainerComponent,
-    SettingsModalComponent
+    SettingsModalComponent,
+    BiometricModalComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -28,6 +30,7 @@ export class AppComponent {
 
   showUserMenu = signal<boolean>(false);
   showSettingsModal = signal<boolean>(false);
+  showBiometricModal = signal<boolean>(false);
   mobileSidebarOpen = signal<boolean>(false);
 
   toggleUserMenu() {

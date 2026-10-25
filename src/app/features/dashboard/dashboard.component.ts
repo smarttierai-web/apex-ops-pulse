@@ -7,6 +7,7 @@ import { EmployeeModalComponent } from '../modals/employee-modal.component';
 import { BroadcastModalComponent } from '../modals/broadcast-modal.component';
 import { AttendanceOverrideModalComponent } from '../modals/attendance-override-modal.component';
 import { SettingsModalComponent } from '../modals/settings-modal.component';
+import { BiometricModalComponent } from '../modals/biometric-modal.component';
 import { LeaveRequest } from '../../core/models/workforce.model';
 
 @Component({
@@ -19,7 +20,8 @@ import { LeaveRequest } from '../../core/models/workforce.model';
     EmployeeModalComponent,
     BroadcastModalComponent,
     AttendanceOverrideModalComponent,
-    SettingsModalComponent
+    SettingsModalComponent,
+    BiometricModalComponent
   ],
   template: `
     <div class="space-y-6">
@@ -44,12 +46,20 @@ import { LeaveRequest } from '../../core/models/workforce.model';
           </div>
 
           <button
-            (click)="showAttendanceModal = true"
-            class="px-3.5 py-1.5 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-semibold rounded-lg shadow-sm transition-all flex items-center gap-1.5"
+            (click)="showBiometricModal = true"
+            class="px-3.5 py-1.5 bg-[#0A7380] hover:bg-[#085a64] text-white text-xs font-semibold rounded-lg shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
           >
-            <app-icon name="radio" [size]="14"></app-icon>
-            <span>Simulate Live Punch</span>
+            <app-icon name="fingerprint" [size]="14"></app-icon>
+            <span>Biometric Punch</span>
           </button>
+
+          <a
+            routerLink="/biometric"
+            class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg shadow-sm transition-all flex items-center gap-1.5"
+          >
+            <app-icon name="scan" [size]="14"></app-icon>
+            <span>Gate Kiosk</span>
+          </a>
         </div>
       </div>
 
@@ -354,14 +364,24 @@ import { LeaveRequest } from '../../core/models/workforce.model';
                 <span>Broadcast Announcement</span>
               </button>
 
-              <!-- Button 4: Approve Attendance -->
+              <!-- Button 4: Biometric Terminal / Punch -->
+              <button
+                type="button"
+                (click)="showBiometricModal = true"
+                class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-[#0A7380] hover:bg-[#085e68] shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <app-icon name="fingerprint" [size]="16"></app-icon>
+                <span>Biometric Check-In / Out</span>
+              </button>
+
+              <!-- Button 5: Manual Override -->
               <button
                 type="button"
                 (click)="showAttendanceModal = true"
-                class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-[#0A7380] hover:bg-[#085e68] shadow-sm transition-all flex items-center justify-center gap-2"
+                class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all flex items-center justify-center gap-2"
               >
                 <app-icon name="check-circle" [size]="16"></app-icon>
-                <span>Approve Attendance</span>
+                <span>Supervisor Override</span>
               </button>
             </div>
           </div>
@@ -425,6 +445,10 @@ import { LeaveRequest } from '../../core/models/workforce.model';
         <app-settings-modal (close)="showSettingsModal = false"></app-settings-modal>
       }
 
+      @if (showBiometricModal) {
+        <app-biometric-modal (close)="showBiometricModal = false"></app-biometric-modal>
+      }
+
     </div>
   `
 })
@@ -439,6 +463,7 @@ export class DashboardComponent {
   showBroadcastModal = false;
   showAttendanceModal = false;
   showSettingsModal = false;
+  showBiometricModal = false;
 
   async onApproveLeave(leave: LeaveRequest) {
     await this.supabaseService.updateLeaveStatus(leave.id, 'approved');
