@@ -1,0 +1,322 @@
+<div class="min-h-screen bg-[#F4F6F9] flex flex-col antialiased">
+  
+  <div class="flex-1 flex overflow-hidden">
+    
+    <!-- ============================================== -->
+    <!-- LEFT SIDEBAR: Deep Navy (#1B2C4E) Enterprise OS -->
+    <!-- ============================================== -->
+    <aside
+      class="w-64 bg-[#1B2C4E] text-slate-200 flex flex-col shrink-0 z-30 transition-all duration-300"
+      [ngClass]="{
+        'fixed inset-y-0 left-0 shadow-2xl': mobileSidebarOpen(),
+        'hidden md:flex': !mobileSidebarOpen()
+      }"
+    >
+      <!-- Brand Logo Header -->
+      <div class="h-18 px-6 py-5 flex items-center justify-between border-b border-[#263C66]/50">
+        <a routerLink="/dashboard" class="flex items-center gap-3 group">
+          <!-- Stylized Teal Logo Icon -->
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0A7380] to-[#13979B] flex items-center justify-center text-white shadow-md shadow-teal-950/40 group-hover:scale-105 transition-transform">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 22 22 22"/>
+              <line x1="12" y1="9" x2="12" y2="17"/>
+              <polyline points="9 13 12 10 15 13"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-base font-extrabold tracking-tight text-white leading-tight flex items-center gap-1.5">
+              <span>Apex</span>
+              <span class="text-[#2DD4BF] font-light">OpsPulse</span>
+            </div>
+            <div class="text-[10px] text-teal-200/70 tracking-wider uppercase font-semibold">Corporate OS</div>
+          </div>
+        </a>
+
+        <!-- Mobile close button -->
+        <button
+          *ngIf="mobileSidebarOpen()"
+          (click)="closeMobileSidebar()"
+          class="md:hidden text-slate-400 hover:text-white"
+        >
+          <app-icon name="x" [size]="18"></app-icon>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+        <!-- 1. Dashboard -->
+        <a
+          routerLink="/dashboard"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="dashboard" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- 2. Employee Directory -->
+        <a
+          routerLink="/directory"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="users" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Employee Directory</span>
+        </a>
+
+        <!-- 3. Leave Management -->
+        <a
+          routerLink="/leaves"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <div class="flex items-center gap-3">
+            <app-icon name="calendar" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+            <span>Leave Management</span>
+          </div>
+          @if (metrics().pendingLeaveRequestsCount > 0) {
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/30 text-rose-300 border border-rose-500/40">
+              {{ metrics().pendingLeaveRequestsCount }}
+            </span>
+          }
+        </a>
+
+        <!-- 4. Payroll & Payment -->
+        <a
+          routerLink="/payroll"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="payroll" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Payroll & Payment</span>
+        </a>
+
+        <!-- 5. Daily Activity / Attendance -->
+        <a
+          routerLink="/attendance"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="clock" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Daily Activity</span>
+        </a>
+
+        <!-- 6. Performance & Reviews -->
+        <a
+          routerLink="/performance"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="trending-up" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Performance & Reviews</span>
+        </a>
+
+        <!-- 7. Company Policy -->
+        <a
+          routerLink="/policies"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="file-text" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Company Policy</span>
+        </a>
+
+        <!-- 8. Admin Settings -->
+        <a
+          routerLink="/settings"
+          (click)="closeMobileSidebar()"
+          routerLinkActive="bg-gradient-to-r from-[#0A7380] to-[#13979B] text-white font-semibold shadow-md shadow-teal-950/20"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all group"
+        >
+          <app-icon name="settings" [size]="18" customClass="text-slate-300 group-hover:text-white"></app-icon>
+          <span>Admin Settings</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer Telemetry -->
+      <div class="p-4 border-t border-[#263C66]/50 bg-[#15233E]/60 text-xs">
+        <div class="flex items-center justify-between text-[11px] text-slate-400">
+          <span>Supabase Realtime</span>
+          <span class="inline-flex items-center gap-1.5 font-semibold text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 live-beacon"></span>
+            Syncing
+          </span>
+        </div>
+        <div class="mt-2 text-[10px] text-slate-500 font-mono">
+          PostgreSQL RLS • Apex v2026.10
+        </div>
+      </div>
+    </aside>
+
+    <!-- Backdrop for mobile drawer -->
+    <div
+      *ngIf="mobileSidebarOpen()"
+      (click)="closeMobileSidebar()"
+      class="fixed inset-0 bg-slate-950/50 z-20 md:hidden"
+    ></div>
+
+    <!-- ============================================== -->
+    <!-- MAIN CONTENT CONTAINER                         -->
+    <!-- ============================================== -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      
+      <!-- TOP HEADER BAR (Matches Mockup) -->
+      <header class="h-18 px-6 py-4 bg-white border-b border-slate-200/80 shrink-0 flex items-center justify-between sticky top-0 z-10 shadow-xs">
+        
+        <!-- Left: Mobile menu toggle & Title -->
+        <div class="flex items-center gap-4">
+          <button
+            type="button"
+            (click)="toggleMobileSidebar()"
+            class="md:hidden text-slate-600 hover:text-slate-900 p-1"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 tracking-tight leading-none">Employee Portal</h2>
+            <p class="text-[11px] text-slate-400 font-medium hidden sm:block mt-0.5">Manufacturing Operations & Plant Governance</p>
+          </div>
+        </div>
+
+        <!-- Right: Search, Notifications & User Pill -->
+        <div class="flex items-center gap-4">
+          
+          <!-- Search Input Box -->
+          <div class="relative hidden sm:block w-64 md:w-80">
+            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+              <app-icon name="search" [size]="15"></app-icon>
+            </span>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0A7380] focus:bg-white transition-all"
+            />
+          </div>
+
+          <!-- Notification Bell with Red Badge -->
+          <div class="relative">
+            <button
+              type="button"
+              routerLink="/leaves"
+              class="w-9 h-9 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 flex items-center justify-center transition-colors relative"
+            >
+              <app-icon name="bell" [size]="17"></app-icon>
+              <!-- Red notification dot -->
+              <span class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white rounded-full text-[9px] font-bold flex items-center justify-center shadow-xs">
+                {{ metrics().pendingActionsTotal }}
+              </span>
+            </button>
+          </div>
+
+          <!-- User Profile Dropdown Pill -->
+          <div class="relative">
+            <button
+              type="button"
+              (click)="toggleUserMenu()"
+              class="flex items-center gap-3 pl-1 pr-2.5 py-1 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all text-left"
+            >
+              <img
+                [src]="currentUser()?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'"
+                [alt]="currentUser()?.first_name || 'Admin'"
+                class="w-8 h-8 rounded-full object-cover ring-2 ring-teal-600/30"
+              />
+              <div class="hidden md:block leading-tight">
+                <div class="text-xs font-bold text-slate-800 flex items-center gap-1">
+                  <span>{{ currentUser()?.first_name }} {{ currentUser()?.last_name }}</span>
+                </div>
+                <div class="text-[10px] text-slate-400 font-medium">
+                  ({{ currentUser()?.role === 'hr_manager' ? 'HR Manager' : currentUser()?.role === 'admin' ? 'Admin' : 'Operator' }})
+                </div>
+              </div>
+              <app-icon name="chevron-down" [size]="14" customClass="text-slate-400"></app-icon>
+            </button>
+
+            <!-- Dropdown Menu -->
+            @if (showUserMenu()) {
+              <div class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-40 animate-in fade-in zoom-in-95 duration-150">
+                <div class="px-4 py-2 border-b border-slate-100">
+                  <div class="text-xs font-bold text-slate-900">{{ currentUser()?.first_name }} {{ currentUser()?.last_name }}</div>
+                  <div class="text-[11px] text-slate-500 font-mono">{{ currentUser()?.employee_id }}</div>
+                  <div class="text-[10px] text-teal-800 font-semibold mt-0.5 uppercase">{{ currentUser()?.department }}</div>
+                </div>
+
+                <div class="py-1 text-xs">
+                  <a
+                    routerLink="/settings"
+                    (click)="showUserMenu.set(false)"
+                    class="flex items-center gap-2 px-4 py-2 text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                  >
+                    <app-icon name="settings" [size]="14"></app-icon>
+                    <span>Supabase DB Settings</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    (click)="showSettingsModal.set(true); showUserMenu.set(false)"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-slate-700 hover:bg-slate-50 hover:text-slate-900 text-left"
+                  >
+                    <app-icon name="database" [size]="14"></app-icon>
+                    <span>Configure Postgres RLS</span>
+                  </button>
+                </div>
+
+                <div class="border-t border-slate-100 pt-1 text-xs">
+                  <button
+                    type="button"
+                    (click)="supabaseService.signOut(); showUserMenu.set(false)"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-rose-600 hover:bg-rose-50 text-left"
+                  >
+                    <app-icon name="x" [size]="14"></app-icon>
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT ROUTER -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <router-outlet></router-outlet>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="px-6 py-4 border-t border-slate-200/80 bg-white text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-teal-600"></span>
+          <span class="font-semibold text-slate-600">Apex OpsPulse Enterprise OS</span>
+          <span>• Production Workforce Portal</span>
+        </div>
+        <div class="flex items-center gap-4 text-[11px]">
+          <span>PostgreSQL 15</span>
+          <span>Row Level Security (RLS)</span>
+          <span>Supabase Realtime</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Global Toasts -->
+  <app-toast-container></app-toast-container>
+
+  <!-- Global Settings Modal -->
+  @if (showSettingsModal()) {
+    <app-settings-modal (close)="showSettingsModal.set(false)"></app-settings-modal>
+  }
+
+</div>
